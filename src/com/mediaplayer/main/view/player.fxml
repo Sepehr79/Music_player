@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="137.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/8.0.271" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mediaplayer.main.controller.Controller">
+   <children>
+      <ToolBar prefHeight="45.0" prefWidth="675.0">
+        <items>
+            <Button mnemonicParsing="false" onAction="#openFile" prefHeight="31.0" prefWidth="65.0" text="File" />
+        </items>
+      </ToolBar>
+      <Slider fx:id="slider" layoutX="50.0" layoutY="80.0" onMouseDragged="#sliderDragged" prefHeight="18.0" prefWidth="493.0" />
+      <Button fx:id="playButton" layoutX="613.0" layoutY="71.0" mnemonicParsing="false" onAction="#playClicked" prefHeight="35.0" prefWidth="35.0" style="-fx-background-radius: 50%;" text="⏵" />
+      <Text fx:id="timeLabel" layoutX="548.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00" textAlignment="CENTER" wrappingWidth="65.0" />
+   </children>
+</AnchorPane>
