@@ -8,6 +8,7 @@ import com.mediaplayer.main.logic.TimeConvertor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
@@ -30,6 +31,9 @@ public class Controller {
     @FXML // fx:id="timeLabel"
     private Text timeLabel; // Value injected by FXMLLoader
 
+    @FXML
+    private Label playingMusic;
+
     private MediaPlayer mediaPlayer;
 
     private File file;
@@ -38,6 +42,12 @@ public class Controller {
 
     @FXML
     void openFile(ActionEvent event) {
+        if (isPlaying){
+            mediaPlayer.pause();
+            playButton.setText("⏵");
+            isPlaying = false;
+        }
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select your music");
 
@@ -50,6 +60,7 @@ public class Controller {
             mediaPlayer.setOnPlaying(new Runnable() {
                 @Override
                 public void run() {
+                    playingMusic.setText("Playing: " + file.getName());
                     mediaPlayer.setCycleCount(Integer.MAX_VALUE);
 
                     new Thread(()->{

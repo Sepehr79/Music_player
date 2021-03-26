@@ -1,6 +1,5 @@
 package com.mediaplayer.main;
 
-import com.mediaplayer.main.controller.Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
