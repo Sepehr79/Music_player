@@ -13,6 +13,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -54,28 +55,16 @@ public class Controller {
         file = fileChooser.showOpenDialog(new Stage());
 
         if (file != null){
-            Media media = new Media(file.toURI().toString());
-            mediaPlayer = new MediaPlayer(media);
+            try {
+                Media media = new Media(file.toURI().toString());
+                mediaPlayer = new MediaPlayer(media);
 
-            mediaPlayer.setOnPlaying(new Runnable() {
-                @Override
-                public void run() {
-                    playingMusic.setText("Playing: " + file.getName());
-                    mediaPlayer.setCycleCount(Integer.MAX_VALUE);
+                setRunnableForMediaPlayer();
+            }catch (RuntimeException exception){
+                playingMusic.setText("Cant play this file!");
+                playingMusic.setTextFill(Color.RED);
+            }
 
-                    new Thread(()->{
-                        while (isPlaying){
-                            slider.setValue(mediaPlayer.getCurrentTime().toSeconds() / mediaPlayer.getStopTime().toSeconds() * 100);
-                            timeLabel.setText(TimeConvertor.secondsToMinutesAndSeconds(mediaPlayer.getCurrentTime().toSeconds()));
-                            try {
-                                Thread.currentThread().sleep(500);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }).start();
-                }
-            });
         }
 
     }
@@ -100,5 +89,27 @@ public class Controller {
         mediaPlayer.seek(new Duration(slider.getValue() * mediaPlayer.getStopTime().toSeconds() * 10));
     }
 
+    private void setRunnableForMediaPlayer(){
+        mediaPlayer.setOnPlaying(new Runnable() {
+            @Override
+            public void run() {
+                playingMusic.setText("Playing: " + file.getName());
+                playingMusic.setTextFill(Color.GREEN);
+                mediaPlayer.setCycleCount(Integer.MAX_VALUE);
+
+                new Thread(()->{
+                    while (isPlaying){
+                        slider.setValue(mediaPlayer.getCurrentTime().toSeconds() / mediaPlayer.getStopTime().toSeconds() * 100);
+                        timeLabel.setText(TimeConvertor.secondsToMinutesAndSeconds(mediaPlayer.getCurrentTime().toSeconds()));
+                        try {
+                            Thread.currentThread().sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
+        });
+    }
 }
 
